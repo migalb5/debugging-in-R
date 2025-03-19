@@ -71,7 +71,7 @@ server <- function(input, output) {
     # paste(nrow(faithful)) # bug corrected: case of dataset name
     tryCatch({ paste(nrow(Faithful)) }, 
              error = function(e) { 
-               showNotification("Error in Total Eruptions: no data available", type = "error")
+               showNotification("Error in Total Eruptions: no data available", type = "error") ""
                "N/A"
                 })
   })
