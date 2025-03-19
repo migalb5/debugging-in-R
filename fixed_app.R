@@ -68,7 +68,7 @@ server <- function(input, output) {
   })
   
   output$eruption_count <- renderText({
-    paste(nrow(Faithful))
+    paste(nrow(faithful)) # bug corrected: case of dataset name
   })
   
   
