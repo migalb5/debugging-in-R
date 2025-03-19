@@ -68,13 +68,14 @@ server <- function(input, output) {
   })
   
   output$eruption_count <- renderText({
-    paste(nrow(faithful)) # bug corrected: case of dataset name
+    # paste(nrow(faithful)) # bug corrected: case of dataset name
+    tryCatch({ paste(nrow(Faithful)) }, error = function(e) { showNotification("Error in Eruption Count: no data available", type = "error")} )
   })
   
   
   output$distPlot <- renderPlot({
-    x <- as.character(faithful$waiting)
-    bins <- seq(min(y), max(y), length.out = input$bins + '1')
+    x <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1) # bugs corrected: input$bins should be added to a numeric value; starting and end values of the sequence should refer to the data (x)
     
     ggplot(data.frame(x), aes(x)) +
       geom_histogram(breaks = bins, fill = input$color, color = "white") +
@@ -83,7 +84,7 @@ server <- function(input, output) {
   })
   
   output$densityPlot <- renderPlot({
-    x <- faithful$Waiting
+    x <- faithful$waiting # bug corrected: case of field name in dataset
     
     ggplot(data.frame(x), aes(x)) +
       geom_density(fill = input$color, alpha = 0.5) +
@@ -104,7 +105,7 @@ server <- function(input, output) {
     ggplot(faithful, aes(x = eruptions, y = waiting)) +
       geom_point(color = input$color) +
       labs(title = "Scatter Plot of Eruptions vs Waiting Time", x = "Eruption Duration (mins)", y = "Waiting Time (mins)") +
-      theme_choice
+      theme_choice() # bug corrected: calling of theme function missing parentheses
   })
 }
 
