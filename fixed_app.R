@@ -69,11 +69,16 @@ server <- function(input, output) {
   
   output$eruption_count <- renderText({
     # paste(nrow(faithful)) # bug corrected: case of dataset name
-    tryCatch({ paste(nrow(Faithful)) }, error = function(e) { showNotification("Error in Eruption Count: no data available", type = "error")} )
+    tryCatch({ paste(nrow(Faithful)) }, 
+             error = function(e) { 
+               showNotification("Error in Total Eruptions: no data available", type = "error")
+               "N/A"
+                })
   })
   
   
   output$distPlot <- renderPlot({
+    # browser()
     x <- faithful$waiting
     bins <- seq(min(x), max(x), length.out = input$bins + 1) # bugs corrected: input$bins should be added to a numeric value; starting and end values of the sequence should refer to the data (x)
     
